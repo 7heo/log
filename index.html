@@ -1,37 +1,72 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="7heo's log : Another random web log" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>7heo's log by 7heo</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>7heo's log</title>
   </head>
-
   <body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/7heo/log">View on GitHub</a>
+      <header>
+        <h1>7heo's log</h1>
+        <p>Another random web log</p>
+      </header>
 
-          <h1 id="project_title">7heo's log</h1>
-          <h2 id="project_tagline">Another random web log</h2>
+      <div id="banner">
+        <span id="logo"></span>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/7heo/log/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/7heo/log/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+        <a href="https://github.com/7heo/log" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/7heo/log/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/7heo/log/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
         <h1>
+<a name="c-properties" class="anchor" href="#c-properties"><span class="octicon octicon-link"></span></a>C# Properties</h1>
+
+<p><em>2013/11/18 - 0315 GMT+1</em></p>
+
+<p>So, I've done some C# recently. And, since I'm not really used to the language, I read the <a href="http://msdn.microsoft.com/en-us/library/">MSDN documentation</a> a lot, and also <a href="http://stackoverflow.com/">stackoverflow</a>, when I don't find the info there.</p>
+
+<p>But rarely, I don't find the info on either of these websites. It might be because I don't ask the right question, or because it's about a trivial problem that most .NET developers overcome in seconds.</p>
+
+<p>Here is one problem I had some hard time to overcome (followed, of course, by the solution):</p>
+
+<p><strong>Given objects you can access via the "Square bracket" operators (i.e. '[]') on another object, how to list all the (children) objects you can access?</strong></p>
+
+<p>First of all, I've tried to make my code throw an exception, so I could check the existing variables and their values; hopefully finding the correct data structure in the list. This was a complete failure. The indexed values are not listed under an object.</p>
+
+<p>Then I've tried all sort of black magic tricks I've found all around the web, without success. I've noticed that my object had several properties, including "Container". So I've tried to access that container, to list all of its elements, and so on. Again, that was a complete failure. I'm not really used to the .NET framework, but it seems to make very little sense to search for properties in components.</p>
+
+<p>And then I have found the syntax for <a href="http://msdn.microsoft.com/en-us/library/ttw7t8t6%28v=vs.90%29.aspx">foreach</a> (good old <a href="http://us1.php.net/manual/en/control-structures.foreach.php">foreach</a> you also use in PHP to access arrays). I've tried to access my "indexed" object via foreach, but again, this was a failure. Though, this time, I had a bit more information: <code>Error: foreach statement cannot operate on variables of type '&lt;object&gt;' because '&lt;object&gt;' does not contain a public definition for 'GetEnumerator'</code>. NOW I had some information about what to search. An object that has a <code>GetEnumerator</code> method.</p>
+
+<p>Given that new information, I have searched all the main object properties for one that had a <code>GetEnumerator</code> method. I've found it to be called "Properties". Meh. Obvious name should have been obvious.</p>
+
+<p>So the key to this problem was to understand the implicit link between the <a href="http://msdn.microsoft.com/en-us/library/x9fsa0sw.aspx">Properties</a> property and the <a href="http://msdn.microsoft.com/en-us/library/6x16t2tx.aspx">Indexer</a> access in that case.</p>
+
+<p>I guess it should have been really straightforward for an experienced .NET programmer. Still, for me, that's the kind of things that would require a more extensive documentation, or even better, a corresponding data visualization in the IDE.</p>
+
+<p>And for those who wonder, here is a comparison between the <a href="http://msdn.microsoft.com/en-us/library/4bsztef7.aspx">properties and the indexers</a>.</p>
+
+<hr><h1>
 <a name="microsoft-wont-ever-change" class="anchor" href="#microsoft-wont-ever-change"><span class="octicon octicon-link"></span></a>Microsoft won't ever change</h1>
 
 <p><em>2013/11/09 - 0300 GMT+1</em></p>
@@ -44,24 +79,19 @@
 
 <p>Bottom line: Now I have got a key for the IDE, I don't risk anymore (afaik) to lose some data because of some very bad design choice, dictated by an overly stupid marketing decision, very probably made by an even more stupid employee of a greedy monopolistic company that accumulates law infringements faster than Google gathers people's data. This is just to say: Microsoft, take a good look at us, while you still can. Take a good look at what people think of you when you treat them like retards. When you don't give a f*ck about interoperability and consider yourself the only important thing on Earth. And watch us switch to other systems and software. You won't ever change. We know that. It's only a matter of time before your name won't be anywhere but on Wikipedia. So, enjoy your wealth while you still can. And then, please, die silently.</p>
 
-<h1>
+<hr><h1>
 <a name="first-post" class="anchor" href="#first-post"><span class="octicon octicon-link"></span></a>First post</h1>
 
 <p><em>2013/11/09 - 0200 GMT+1</em></p>
 
 <p>As it is really simple to generate a website with github, I'm starting a log here. More to come, probably.</p>
       </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">7heo's log maintained by <a href="https://github.com/7heo">7heo</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/7heo">7heo</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
       </footer>
     </div>
-
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
-
   </body>
 </html>
