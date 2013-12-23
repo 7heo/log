@@ -53,13 +53,14 @@ While this is very true for spaghetti code and other various forms of coding hor
 
 <p>And, to illustrate what I mean, I'll provide an example of a bad code, with comments, and then, of the good version of the same code:</p>
 
-<pre><code>TabControl myTabControl = new TabControl();
-myTabControl.Top = 5 + menuStrip1.Height;
-myTabControl.Left = 5;
-myTabControl.Width = ClientSize.Width - 8; // ClientSize or ClientRectangle report widths two pixel inferior to the actual size.
-myTabControl.Height = ClientSize.Height - 9 - menuStrip1.Height - statusStrip1.Height; // ClientSize or ClientRectangle report heights one pixel inferior to the actual size.
+<div class="highlight highlight-C#"><pre><span class="n">TabControl</span> <span class="n">myTabControl</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TabControl</span><span class="p">();</span>
+<span class="n">myTabControl</span><span class="p">.</span><span class="n">Top</span> <span class="p">=</span> <span class="m">5</span> <span class="p">+</span> <span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span>
+<span class="n">myTabControl</span><span class="p">.</span><span class="n">Left</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
+<span class="n">myTabControl</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Width</span> <span class="p">-</span> <span class="m">8</span><span class="p">;</span> <span class="c1">// ClientSize or ClientRectangle report widths two pixel inferior to the actual size.</span>
+<span class="n">myTabControl</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span> <span class="m">9</span> <span class="p">-</span> <span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span> <span class="n">statusStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span> <span class="c1">// ClientSize or ClientRectangle report heights one pixel inferior to the actual size.</span>
+</pre></div>
 
-TabControl mainTabControl = new TabControl();
+<pre><code>TabControl mainTabControl = new TabControl();
 mainTabControl.Width = this.ClientSize.Width + 2 - (MainForm.margin + mainTabControl.Left);
 mainTabControl.Height = this.ClientSize.Height + 1 - (MainForm.margin + mainTabControl.Top + statusStrip1.Height);
 </code></pre>
