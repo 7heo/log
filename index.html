@@ -40,6 +40,29 @@
       </nav>
       <section>
         <h1>
+<a name="you-should-comment-to-tell-how-bad-you-are-at-writing-code" class="anchor" href="#you-should-comment-to-tell-how-bad-you-are-at-writing-code"><span class="octicon octicon-link"></span></a>You should comment... to tell how bad you are at writing code.</h1>
+
+<p><em>2013/12/23 - 1900 GMT+1</em></p>
+
+<p>These days, I write a lot of C# code, in order to get my prototypes in working states; so I can then focus onto their improvement, and finally write them in C. And while I was writing the code for the automatic generation of a Form's controls with the correct size, I did find the best example to show how and why comments are bad.</p>
+
+<p>From the university teachers I've known, and pretty much every single person who tried to teach me how to write code, I know this: "One should <strong>always</strong> comment his/her code, because it is very hard to re-read, and especially re-understand what you have written, several days/weeks/months/years after.".
+While this is very true for spaghetti code and other various forms of coding horror (hence the teacher-to-student recommendation), it can be considered to be noise if the code is well written.</p>
+
+<p>The problem, then, is what people consider to be good code. Well, I think that one can define good code as: code that can be understood several years after without the need of commenting it.</p>
+
+<p>And, to illustrate what I mean, I'll provide an example of a bad code, with comments, and then, of the good version of the same code:</p>
+
+<pre><code>TabControl myTabControl = new TabControl();
+myTabControl.Width = ClientSize.Width - myTabControl.Left - MainForm.margin + 2; // ClientSize or ClientRectangle report widths two pixel inferior to the actual size.
+myTabControl.Height = ClientSize.Height - MainForm.margin - myTabControl.Top - statusStrip1.Height + 1; // ClientSize or ClientRectangle report heights one pixel inferior to the actual size.
+
+TabControl mainTabControl = new TabControl();
+mainTabControl.Width = this.ClientSize.Width + 2 - (MainForm.margin + mainTabControl.Left);
+mainTabControl.Height = this.ClientSize.Height + 1 - (MainForm.margin + mainTabControl.Top + statusStrip1.Height);
+</code></pre>
+
+<h1>
 <a name="microsoft-is-catching-up" class="anchor" href="#microsoft-is-catching-up"><span class="octicon octicon-link"></span></a>Microsoft is catching up</h1>
 
 <p><em>2013/12/08 - 0120 GMT+1</em></p>
