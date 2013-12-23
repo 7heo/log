@@ -54,8 +54,10 @@ While this is very true for spaghetti code and other various forms of coding hor
 <p>And, to illustrate what I mean, I'll provide an example of a bad code, with comments, and then, of the good version of the same code:</p>
 
 <pre><code>TabControl myTabControl = new TabControl();
-myTabControl.Width = ClientSize.Width - myTabControl.Left - MainForm.margin + 2; // ClientSize or ClientRectangle report widths two pixel inferior to the actual size.
-myTabControl.Height = ClientSize.Height - MainForm.margin - myTabControl.Top - statusStrip1.Height + 1; // ClientSize or ClientRectangle report heights one pixel inferior to the actual size.
+myTabControl.Top = 5 + menuStrip1.Height;
+myTabControl.Left = 5;
+myTabControl.Width = ClientSize.Width - 8; // ClientSize or ClientRectangle report widths two pixel inferior to the actual size.
+myTabControl.Height = ClientSize.Height - 9 - menuStrip1.Height - statusStrip1.Height; // ClientSize or ClientRectangle report heights one pixel inferior to the actual size.
 
 TabControl mainTabControl = new TabControl();
 mainTabControl.Width = this.ClientSize.Width + 2 - (MainForm.margin + mainTabControl.Left);
