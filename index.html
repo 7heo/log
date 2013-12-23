@@ -56,8 +56,13 @@ While this is very true for spaghetti code and other various forms of coding hor
 <div class="highlight highlight-C#"><pre><span class="n">TabControl</span> <span class="n">myTabControl</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TabControl</span><span class="p">();</span>
 <span class="n">myTabControl</span><span class="p">.</span><span class="n">Top</span> <span class="p">=</span> <span class="m">5</span> <span class="p">+</span> <span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span>
 <span class="n">myTabControl</span><span class="p">.</span><span class="n">Left</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
-<span class="n">myTabControl</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Width</span> <span class="p">-</span> <span class="m">8</span><span class="p">;</span> <span class="c1">// ClientSize or ClientRectangle report widths two pixel inferior to the actual size.</span>
-<span class="n">myTabControl</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span> <span class="m">9</span> <span class="p">-</span> <span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span> <span class="n">statusStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span> <span class="c1">// ClientSize or ClientRectangle report heights one pixel inferior to the actual size.</span>
+<span class="n">myTabControl</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Width</span> <span class="p">-</span> <span class="m">8</span><span class="p">;</span>
+<span class="c1">// ClientSize or ClientRectangle report widths two pixel inferior to</span>
+<span class="c1">// the actual size.</span>
+<span class="n">myTabControl</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span> <span class="m">9</span> <span class="p">-</span> <span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span>
+                      <span class="n">statusStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span>
+<span class="c1">// ClientSize or ClientRectangle report heights one pixel inferior to</span>
+<span class="c1">// the actual size.</span>
 </pre></div>
 
 <div class="highlight highlight-C#"><pre><span class="kt">int</span> <span class="n">margin</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
