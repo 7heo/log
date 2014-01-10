@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>7heo's log by 7heo</title>
+    <title>7heo&#39;s log by 7heo</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -17,7 +17,7 @@
   <body>
 
       <header>
-        <h1>7heo's log</h1>
+        <h1>7heo&#39;s log</h1>
         <p>Another random web log</p>
       </header>
 
@@ -40,6 +40,15 @@
       </nav>
       <section>
         <h1>
+<a name="how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt" class="anchor" href="#how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt"><span class="octicon octicon-link"></span></a>How to get the complete list of all the packages you did install with APT</h1>
+
+<p><em>2014/01/10 - 1500 GMT+1</em></p>
+
+<pre><code>zgrep Commandline..apt-get.install /var/log/apt/history.log* \
+| sed 's/^.*install \(.*\)$/\1/g' | tac
+</code></pre>
+
+<h1>
 <a name="you-should-comment-to-tell-how-bad-you-are-at-writing-code" class="anchor" href="#you-should-comment-to-tell-how-bad-you-are-at-writing-code"><span class="octicon octicon-link"></span></a>You should comment... to tell how bad you are at writing code.</h1>
 
 <p><em>2013/12/23 - 1900 GMT+1</em></p>
