@@ -40,6 +40,95 @@
       </nav>
       <section>
         <h1>
+<a name="php-function-to-interpret-utf-8-into-unicode" class="anchor" href="#php-function-to-interpret-utf-8-into-unicode"><span class="octicon octicon-link"></span></a>PHP Function to interpret UTF-8 into Unicode</h1>
+
+<p><em>2014/03/04 - 2100 GMT+1</em></p>
+
+<p>Lately, I have had to encode UTF-8 characters into html-entities. But There is no function for that in PHP. So I have written one:</p>
+
+<div class="highlight highlight-PHP"><pre><span class="k">function</span> <span class="nf">utf8_to_unicode</span><span class="p">(</span><span class="nv">$UTF8_char</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">global</span> <span class="nv">$UTF8_ERR</span><span class="p">;</span>
+    <span class="nv">$isByte1</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="nv">$Bytes</span> <span class="o">=</span> <span class="nb">unpack</span><span class="p">(</span><span class="s2">"C*"</span><span class="p">,</span> <span class="nv">$UTF8_char</span><span class="p">);</span>
+    <span class="nv">$len</span> <span class="o">=</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$Bytes</span><span class="p">);</span>
+    <span class="nv">$UnicodeValue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">foreach</span><span class="p">(</span><span class="nv">$Bytes</span> <span class="k">as</span> <span class="nv">$Byte</span><span class="p">)</span>
+    <span class="p">{</span>   
+        <span class="nv">$UnicodeValue</span> <span class="o">*=</span> <span class="mh">0x40</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nv">$isByte1</span><span class="p">)</span>
+        <span class="p">{</span>       
+            <span class="nv">$isByte1</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
+            <span class="k">if</span><span class="p">(</span><span class="nv">$Byte</span> <span class="o">!=</span> <span class="mh">0xC0</span> <span class="o">&amp;&amp;</span> <span class="nv">$Byte</span> <span class="o">!=</span> <span class="mh">0xC1</span> <span class="o">&amp;&amp;</span> <span class="nv">$Byte</span> <span class="o">&lt;</span> <span class="mh">0xF5</span> <span class="o">&amp;&amp;</span> <span class="p">(((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xE0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xC0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xE0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF8</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xF0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">4</span><span class="p">)))</span>
+            <span class="p">{</span>           
+                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x7F</span><span class="p">);</span>
+                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xE0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xC0</span><span class="p">)</span>
+                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x1F</span><span class="p">);</span>
+                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xE0</span><span class="p">)</span>
+                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x0F</span><span class="p">);</span>
+                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF8</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xF0</span><span class="p">)</span>
+                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x07</span><span class="p">);</span>
+            <span class="p">}</span>           
+            <span class="k">else</span>        
+            <span class="p">{</span>           
+                <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Invalid first byte"</span><span class="p">;</span>
+                <span class="k">return</span> <span class="k">false</span><span class="p">;</span>   
+            <span class="p">}</span>           
+        <span class="p">}</span>       
+        <span class="k">else</span>    
+        <span class="p">{</span>       
+            <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xC0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0x80</span><span class="p">)</span>
+                <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x3F</span><span class="p">);</span> 
+            <span class="k">else</span>        
+            <span class="p">{</span>           
+                <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Invalid continuation byte"</span><span class="p">;</span>
+                <span class="k">return</span> <span class="k">false</span><span class="p">;</span>   
+            <span class="p">}</span>           
+        <span class="p">}</span>       
+    <span class="p">}</span>   
+
+    <span class="k">if</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x80</span><span class="p">)</span>
+    <span class="p">{</span>   
+        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>       
+            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 1 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
+            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+        <span class="p">}</span>       
+    <span class="p">}</span>   
+    <span class="k">elseif</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x800</span><span class="p">)</span>
+    <span class="p">{</span>   
+        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">{</span>       
+            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 2 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
+            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+        <span class="p">}</span>       
+    <span class="p">}</span>   
+    <span class="k">elseif</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x10000</span><span class="p">)</span>
+    <span class="p">{</span>   
+        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="p">{</span>       
+            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 3 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
+            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+        <span class="p">}</span>       
+    <span class="p">}</span>   
+    <span class="k">elseif</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x110000</span><span class="p">)</span>
+    <span class="p">{</span>   
+        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="p">{</span>       
+            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 4 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
+            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+        <span class="p">}</span>       
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+        <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Unicode overflow"</span><span class="p">;</span>
+        <span class="k">return</span> <span class="k">False</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nv">$UnicodeValue</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+<hr><h1>
 <a name="how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt" class="anchor" href="#how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt"><span class="octicon octicon-link"></span></a>How to get the complete list of all the packages you did install with APT</h1>
 
 <p><em>2014/01/10 - 1500 GMT+1</em></p>
