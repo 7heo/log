@@ -7,39 +7,51 @@
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/main.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
     <![endif]-->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
   </head>
   <body>
-
-      <header>
-        <h1>7heo&#39;s log</h1>
-        <p>Another random web log</p>
-      </header>
-
-      <div id="banner">
-        <span id="logo"></span>
-
-        <a href="https://github.com/7heo/log" class="button fork"><strong>View On GitHub</strong></a>
-        <div class="downloads">
-          <span>Downloads:</span>
-          <ul>
-            <li><a href="https://github.com/7heo/log/zipball/master" class="button">ZIP</a></li>
-            <li><a href="https://github.com/7heo/log/tarball/master" class="button">TAR</a></li>
-          </ul>
-        </div>
-      </div><!-- end banner -->
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/7heo/log">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/7heo/log/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/7heo/log/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
 
     <div class="wrapper">
-      <nav>
-        <ul></ul>
-      </nav>
+
       <section>
+        <div id="title">
+          <h1>7heo&#39;s log</h1>
+          <p>Another random web log</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/7heo">7heo</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
         <h1>
+<a name="binary-file-detection" class="anchor" href="#binary-file-detection"><span class="octicon octicon-link"></span></a>Binary file detection</h1>
+
+<p><em>2014/06/02 - 2040 GMT+2</em></p>
+
+<p>For my current project, I am trying to detect whether a file is in a <a href="https://en.wikipedia.org/wiki/Comparison_of_executable_file_formats">known executable format</a> or not, by reading only the few first bytes of that file. Since most of the executable file formats have a <em>magic number</em> at the start, this can seem trivial. However, it is not so trivial: some of those "magic numbers" are composed of ASCII characters only, and so, the probability of having a direct keyboard input that reproduces them - hence creating a false positive detection - is not negligible; and also, some formats don't have any, or have multiple, kind of magic number.</p>
+
+<p>In order to solve the problem where the <em>magic number</em> is only composed of ASCII characters, the solution simply is to read more bytes, and use the file format to determine if those bytes are legit or not (i.e. to do a simple, but more elaborated detection).</p>
+
+<p>In order to solve the problem where the <em>magic number</em> can be multiple things, it's not much of a problem, it's just more cases to check.</p>
+
+<p>However, to solve the problem where there is no <em>magic number</em>, as with the <a href="https://en.wikipedia.org/wiki/A.out">a.out</a> format, a more complex approach is needed: to parse the full header until the file is validated as of this format.</p>
+
+<h1>
 <a name="indent" class="anchor" href="#indent"><span class="octicon octicon-link"></span></a>Indent</h1>
 
 <p><em>2014/04/14 - 0200 GMT+1</em></p>
@@ -257,10 +269,7 @@ While this is very true for spaghetti code and other various forms of coding hor
 
 <p>As it is really simple to generate a website with github, I'm starting a log here. More to come, probably.</p>
       </section>
-      <footer>
-        <p>Project maintained by <a href="https://github.com/7heo">7heo</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></small></p>
-      </footer>
+
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
