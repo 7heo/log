@@ -39,7 +39,7 @@
         </div>
 
         <h1>
-<a name="binary-file-detection" class="anchor" href="#binary-file-detection"><span class="octicon octicon-link"></span></a>Binary file detection</h1>
+<a id="binary-file-detection" class="anchor" href="#binary-file-detection" aria-hidden="true"><span class="octicon octicon-link"></span></a>Binary file detection</h1>
 
 <p><em>2014/06/02 - 2040 GMT+2</em></p>
 
@@ -51,8 +51,10 @@
 
 <p>However, to solve the problem where there is no <em>magic number</em>, as with the <a href="https://en.wikipedia.org/wiki/A.out">a.out</a> format, a more complex approach is needed: to parse the full header until the file is validated as of this format.</p>
 
+<hr>
+
 <h1>
-<a name="indent" class="anchor" href="#indent"><span class="octicon octicon-link"></span></a>Indent</h1>
+<a id="indent" class="anchor" href="#indent" aria-hidden="true"><span class="octicon octicon-link"></span></a>Indent</h1>
 
 <p><em>2014/04/14 - 0200 GMT+1</em></p>
 
@@ -61,97 +63,100 @@
 <pre><code>$ indent -linux -bl -bli0 -nce file.c
 </code></pre>
 
-<hr><h1>
-<a name="php-function-to-interpret-utf-8-into-unicode" class="anchor" href="#php-function-to-interpret-utf-8-into-unicode"><span class="octicon octicon-link"></span></a>PHP Function to interpret UTF-8 into Unicode</h1>
+<hr>
+
+<h1>
+<a id="php-function-to-interpret-utf-8-into-unicode" class="anchor" href="#php-function-to-interpret-utf-8-into-unicode" aria-hidden="true"><span class="octicon octicon-link"></span></a>PHP Function to interpret UTF-8 into Unicode</h1>
 
 <p><em>2014/03/04 - 2100 GMT+1</em></p>
 
 <p>Lately, I have had to encode UTF-8 characters into html-entities. But There is no function for that in PHP. So I have written one:</p>
 
-<div class="highlight highlight-PHP"><pre><span class="k">function</span> <span class="nf">utf8_to_unicode</span><span class="p">(</span><span class="nv">$UTF8_char</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">global</span> <span class="nv">$UTF8_ERR</span><span class="p">;</span>
-    <span class="nv">$isByte1</span> <span class="o">=</span> <span class="k">true</span><span class="p">;</span>
-    <span class="nv">$Bytes</span> <span class="o">=</span> <span class="nb">unpack</span><span class="p">(</span><span class="s2">"C*"</span><span class="p">,</span> <span class="nv">$UTF8_char</span><span class="p">);</span>
-    <span class="nv">$len</span> <span class="o">=</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$Bytes</span><span class="p">);</span>
-    <span class="nv">$UnicodeValue</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="k">foreach</span><span class="p">(</span><span class="nv">$Bytes</span> <span class="k">as</span> <span class="nv">$Byte</span><span class="p">)</span>
-    <span class="p">{</span>   
-        <span class="nv">$UnicodeValue</span> <span class="o">*=</span> <span class="mh">0x40</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="nv">$isByte1</span><span class="p">)</span>
-        <span class="p">{</span>       
-            <span class="nv">$isByte1</span> <span class="o">=</span> <span class="k">false</span><span class="p">;</span>
-            <span class="k">if</span><span class="p">(</span><span class="nv">$Byte</span> <span class="o">!=</span> <span class="mh">0xC0</span> <span class="o">&amp;&amp;</span> <span class="nv">$Byte</span> <span class="o">!=</span> <span class="mh">0xC1</span> <span class="o">&amp;&amp;</span> <span class="nv">$Byte</span> <span class="o">&lt;</span> <span class="mh">0xF5</span> <span class="o">&amp;&amp;</span> <span class="p">(((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">1</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xE0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xC0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">2</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xE0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span> <span class="o">||</span> <span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF8</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xF0</span> <span class="o">&amp;&amp;</span> <span class="nv">$len</span> <span class="o">===</span> <span class="mi">4</span><span class="p">)))</span>
-            <span class="p">{</span>           
-                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x80</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x7F</span><span class="p">);</span>
-                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xE0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xC0</span><span class="p">)</span>
-                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x1F</span><span class="p">);</span>
-                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xE0</span><span class="p">)</span>
-                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x0F</span><span class="p">);</span>
-                <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xF8</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0xF0</span><span class="p">)</span>
-                    <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x07</span><span class="p">);</span>
-            <span class="p">}</span>           
-            <span class="k">else</span>        
-            <span class="p">{</span>           
-                <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Invalid first byte"</span><span class="p">;</span>
-                <span class="k">return</span> <span class="k">false</span><span class="p">;</span>   
-            <span class="p">}</span>           
-        <span class="p">}</span>       
-        <span class="k">else</span>    
-        <span class="p">{</span>       
-            <span class="k">if</span><span class="p">((</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0xC0</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0x80</span><span class="p">)</span>
-                <span class="nv">$UnicodeValue</span> <span class="o">+=</span> <span class="p">(</span><span class="nv">$Byte</span> <span class="o">&amp;</span> <span class="mh">0x3F</span><span class="p">);</span> 
-            <span class="k">else</span>        
-            <span class="p">{</span>           
-                <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Invalid continuation byte"</span><span class="p">;</span>
-                <span class="k">return</span> <span class="k">false</span><span class="p">;</span>   
-            <span class="p">}</span>           
-        <span class="p">}</span>       
-    <span class="p">}</span>   
+<div class="highlight highlight-PHP"><pre><span class="pl-s2"><span class="pl-st">function</span> <span class="pl-en">utf8_to_unicode</span>(<span class="pl-vo">$UTF8_char</span>) {</span>
+<span class="pl-s2">    <span class="pl-s">global</span> <span class="pl-vo">$UTF8_ERR</span>;</span>
+<span class="pl-s2">    <span class="pl-vo">$isByte1</span> <span class="pl-k">=</span> <span class="pl-c1">true</span>;</span>
+<span class="pl-s2">    <span class="pl-vo">$Bytes</span> <span class="pl-k">=</span> <span class="pl-s3">unpack</span>(<span class="pl-s1"><span class="pl-pds">"</span>C*<span class="pl-pds">"</span></span>, <span class="pl-vo">$UTF8_char</span>);</span>
+<span class="pl-s2">    <span class="pl-vo">$len</span> <span class="pl-k">=</span> <span class="pl-s3">count</span>(<span class="pl-vo">$Bytes</span>);</span>
+<span class="pl-s2">    <span class="pl-vo">$UnicodeValue</span> <span class="pl-k">=</span> <span class="pl-c1">0</span>;</span>
+<span class="pl-s2">    <span class="pl-k">foreach</span>(<span class="pl-vo">$Bytes</span> <span class="pl-k">as</span> <span class="pl-vo">$Byte</span>)</span>
+<span class="pl-s2">    {   </span>
+<span class="pl-s2">        <span class="pl-vo">$UnicodeValue</span> <span class="pl-k">*</span><span class="pl-k">=</span> <span class="pl-c1">0x40</span>;</span>
+<span class="pl-s2">        <span class="pl-k">if</span>(<span class="pl-vo">$isByte1</span>)</span>
+<span class="pl-s2">        {       </span>
+<span class="pl-s2">            <span class="pl-vo">$isByte1</span> <span class="pl-k">=</span> <span class="pl-c1">false</span>;</span>
+<span class="pl-s2">            <span class="pl-k">if</span>(<span class="pl-vo">$Byte</span> <span class="pl-k">!</span><span class="pl-k">=</span> <span class="pl-c1">0xC0</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-vo">$Byte</span> <span class="pl-k">!</span><span class="pl-k">=</span> <span class="pl-c1">0xC1</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-vo">$Byte</span> <span class="pl-k">&lt;</span> <span class="pl-c1">0xF5</span> <span class="pl-k">&amp;&amp;</span> (((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0x80</span>) <span class="pl-k">==</span> <span class="pl-c1">0</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-vo">$len</span> <span class="pl-k">===</span> <span class="pl-c1">1</span>) <span class="pl-k">||</span> ((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0xE0</span>) <span class="pl-k">==</span> <span class="pl-c1">0xC0</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-vo">$len</span> <span class="pl-k">===</span> <span class="pl-c1">2</span>) <span class="pl-k">||</span> ((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0xF0</span>) <span class="pl-k">==</span> <span class="pl-c1">0xE0</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-vo">$len</span> <span class="pl-k">===</span> <span class="pl-c1">3</span>) <span class="pl-k">||</span> ((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0xF8</span>) <span class="pl-k">==</span> <span class="pl-c1">0xF0</span> <span class="pl-k">&amp;&amp;</span> <span class="pl-vo">$len</span> <span class="pl-k">===</span> <span class="pl-c1">4</span>)))</span>
+<span class="pl-s2">            {           </span>
+<span class="pl-s2">                <span class="pl-k">if</span>((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0x80</span>) <span class="pl-k">==</span> <span class="pl-c1">0</span>)</span>
+<span class="pl-s2">                    <span class="pl-vo">$UnicodeValue</span> <span class="pl-k">+</span><span class="pl-k">=</span> (<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0x7F</span>);</span>
+<span class="pl-s2">                <span class="pl-k">if</span>((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0xE0</span>) <span class="pl-k">==</span> <span class="pl-c1">0xC0</span>)</span>
+<span class="pl-s2">                    <span class="pl-vo">$UnicodeValue</span> <span class="pl-k">+</span><span class="pl-k">=</span> (<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0x1F</span>);</span>
+<span class="pl-s2">                <span class="pl-k">if</span>((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0xF0</span>) <span class="pl-k">==</span> <span class="pl-c1">0xE0</span>)</span>
+<span class="pl-s2">                    <span class="pl-vo">$UnicodeValue</span> <span class="pl-k">+</span><span class="pl-k">=</span> (<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0x0F</span>);</span>
+<span class="pl-s2">                <span class="pl-k">if</span>((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0xF8</span>) <span class="pl-k">==</span> <span class="pl-c1">0xF0</span>)</span>
+<span class="pl-s2">                    <span class="pl-vo">$UnicodeValue</span> <span class="pl-k">+</span><span class="pl-k">=</span> (<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0x07</span>);</span>
+<span class="pl-s2">            }           </span>
+<span class="pl-s2">            <span class="pl-k">else</span>        </span>
+<span class="pl-s2">            {           </span>
+<span class="pl-s2">                <span class="pl-vo">$UTF8_ERR</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Invalid first byte<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">                <span class="pl-k">return</span> <span class="pl-c1">false</span>;   </span>
+<span class="pl-s2">            }           </span>
+<span class="pl-s2">        }       </span>
+<span class="pl-s2">        <span class="pl-k">else</span>    </span>
+<span class="pl-s2">        {       </span>
+<span class="pl-s2">            <span class="pl-k">if</span>((<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0xC0</span>) <span class="pl-k">==</span> <span class="pl-c1">0x80</span>)</span>
+<span class="pl-s2">                <span class="pl-vo">$UnicodeValue</span> <span class="pl-k">+</span><span class="pl-k">=</span> (<span class="pl-vo">$Byte</span> <span class="pl-k">&amp;</span> <span class="pl-c1">0x3F</span>); </span>
+<span class="pl-s2">            <span class="pl-k">else</span>        </span>
+<span class="pl-s2">            {           </span>
+<span class="pl-s2">                <span class="pl-vo">$UTF8_ERR</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Invalid continuation byte<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">                <span class="pl-k">return</span> <span class="pl-c1">false</span>;   </span>
+<span class="pl-s2">            }           </span>
+<span class="pl-s2">        }       </span>
+<span class="pl-s2">    }   </span>
+<span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-k">if</span>(<span class="pl-vo">$UnicodeValue</span> <span class="pl-k">&lt;</span> <span class="pl-c1">0x80</span>)</span>
+<span class="pl-s2">    {   </span>
+<span class="pl-s2">        <span class="pl-k">if</span>(<span class="pl-vo">$len</span> <span class="pl-k">!</span><span class="pl-k">=</span> <span class="pl-c1">1</span>)</span>
+<span class="pl-s2">        {       </span>
+<span class="pl-s2">            <span class="pl-vo">$UTF8_ERR</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Overlong encoding. The character should be 1 byte instead of <span class="pl-vo">$len</span>.<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">            <span class="pl-k">return</span> <span class="pl-c1">false</span>;</span>
+<span class="pl-s2">        }       </span>
+<span class="pl-s2">    }   </span>
+<span class="pl-s2">    <span class="pl-k">elseif</span>(<span class="pl-vo">$UnicodeValue</span> <span class="pl-k">&lt;</span> <span class="pl-c1">0x800</span>)</span>
+<span class="pl-s2">    {   </span>
+<span class="pl-s2">        <span class="pl-k">if</span>(<span class="pl-vo">$len</span> <span class="pl-k">!</span><span class="pl-k">=</span> <span class="pl-c1">2</span>)</span>
+<span class="pl-s2">        {       </span>
+<span class="pl-s2">            <span class="pl-vo">$UTF8_ERR</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Overlong encoding. The character should be 2 byte instead of <span class="pl-vo">$len</span>.<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">            <span class="pl-k">return</span> <span class="pl-c1">false</span>;</span>
+<span class="pl-s2">        }       </span>
+<span class="pl-s2">    }   </span>
+<span class="pl-s2">    <span class="pl-k">elseif</span>(<span class="pl-vo">$UnicodeValue</span> <span class="pl-k">&lt;</span> <span class="pl-c1">0x10000</span>)</span>
+<span class="pl-s2">    {   </span>
+<span class="pl-s2">        <span class="pl-k">if</span>(<span class="pl-vo">$len</span> <span class="pl-k">!</span><span class="pl-k">=</span> <span class="pl-c1">3</span>)</span>
+<span class="pl-s2">        {       </span>
+<span class="pl-s2">            <span class="pl-vo">$UTF8_ERR</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Overlong encoding. The character should be 3 byte instead of <span class="pl-vo">$len</span>.<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">            <span class="pl-k">return</span> <span class="pl-c1">false</span>;</span>
+<span class="pl-s2">        }       </span>
+<span class="pl-s2">    }   </span>
+<span class="pl-s2">    <span class="pl-k">elseif</span>(<span class="pl-vo">$UnicodeValue</span> <span class="pl-k">&lt;</span> <span class="pl-c1">0x110000</span>)</span>
+<span class="pl-s2">    {   </span>
+<span class="pl-s2">        <span class="pl-k">if</span>(<span class="pl-vo">$len</span> <span class="pl-k">!</span><span class="pl-k">=</span> <span class="pl-c1">4</span>)</span>
+<span class="pl-s2">        {       </span>
+<span class="pl-s2">            <span class="pl-vo">$UTF8_ERR</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Overlong encoding. The character should be 4 byte instead of <span class="pl-vo">$len</span>.<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">            <span class="pl-k">return</span> <span class="pl-c1">false</span>;</span>
+<span class="pl-s2">        }       </span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">    <span class="pl-k">else</span></span>
+<span class="pl-s2">    {</span>
+<span class="pl-s2">        <span class="pl-vo">$UTF8_ERR</span> <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Unicode overflow<span class="pl-pds">"</span></span>;</span>
+<span class="pl-s2">        <span class="pl-k">return</span> <span class="pl-c1">False</span>;</span>
+<span class="pl-s2">    }</span>
+<span class="pl-s2">    <span class="pl-k">return</span> <span class="pl-vo">$UnicodeValue</span>;</span>
+<span class="pl-s2">}</span></pre></div>
 
-    <span class="k">if</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x80</span><span class="p">)</span>
-    <span class="p">{</span>   
-        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="p">{</span>       
-            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 1 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
-            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-        <span class="p">}</span>       
-    <span class="p">}</span>   
-    <span class="k">elseif</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x800</span><span class="p">)</span>
-    <span class="p">{</span>   
-        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="p">{</span>       
-            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 2 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
-            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-        <span class="p">}</span>       
-    <span class="p">}</span>   
-    <span class="k">elseif</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x10000</span><span class="p">)</span>
-    <span class="p">{</span>   
-        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="p">{</span>       
-            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 3 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
-            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-        <span class="p">}</span>       
-    <span class="p">}</span>   
-    <span class="k">elseif</span><span class="p">(</span><span class="nv">$UnicodeValue</span> <span class="o">&lt;</span> <span class="mh">0x110000</span><span class="p">)</span>
-    <span class="p">{</span>   
-        <span class="k">if</span><span class="p">(</span><span class="nv">$len</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">)</span>
-        <span class="p">{</span>       
-            <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Overlong encoding. The character should be 4 byte instead of </span><span class="si">$len</span><span class="s2">."</span><span class="p">;</span>
-            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
-        <span class="p">}</span>       
-    <span class="p">}</span>
-    <span class="k">else</span>
-    <span class="p">{</span>
-        <span class="nv">$UTF8_ERR</span> <span class="o">=</span> <span class="s2">"Unicode overflow"</span><span class="p">;</span>
-        <span class="k">return</span> <span class="k">False</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="nv">$UnicodeValue</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
+<hr>
 
-<hr><h1>
-<a name="how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt" class="anchor" href="#how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt"><span class="octicon octicon-link"></span></a>How to get the complete list of all the packages you did install with APT</h1>
+<h1>
+<a id="how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt" class="anchor" href="#how-to-get-the-complete-list-of-all-the-packages-you-did-install-with-apt" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to get the complete list of all the packages you did install with APT</h1>
 
 <p><em>2014/01/10 - 1500 GMT+1</em></p>
 
@@ -159,8 +164,10 @@
 | sed 's/^.*install \(.*\)$/\1/g' | tac
 </code></pre>
 
-<hr><h1>
-<a name="you-should-comment-to-tell-how-bad-you-are-at-writing-code" class="anchor" href="#you-should-comment-to-tell-how-bad-you-are-at-writing-code"><span class="octicon octicon-link"></span></a>You should comment... to tell how bad you are at writing code.</h1>
+<hr>
+
+<h1>
+<a id="you-should-comment-to-tell-how-bad-you-are-at-writing-code" class="anchor" href="#you-should-comment-to-tell-how-bad-you-are-at-writing-code" aria-hidden="true"><span class="octicon octicon-link"></span></a>You should comment... to tell how bad you are at writing code.</h1>
 
 <p><em>2013/12/23 - 1900 GMT+1</em></p>
 
@@ -173,36 +180,36 @@ While this is very true for spaghetti code and other various forms of coding hor
 
 <p>And, to illustrate what I mean, I'll provide an example of a bad code, with comments, and then, of the good version of the same code:</p>
 
-<div class="highlight highlight-C#"><pre><span class="n">TabControl</span> <span class="n">myTabControl</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TabControl</span><span class="p">();</span>
-<span class="n">myTabControl</span><span class="p">.</span><span class="n">Top</span> <span class="p">=</span> <span class="m">5</span> <span class="p">+</span> <span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span>
-<span class="n">myTabControl</span><span class="p">.</span><span class="n">Left</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
-<span class="n">myTabControl</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Width</span> <span class="p">-</span> <span class="m">8</span><span class="p">;</span>
-<span class="c1">// ClientSize or ClientRectangle report widths two pixel inferior to</span>
-<span class="c1">// the actual size.</span>
-<span class="n">myTabControl</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="n">ClientSize</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span> <span class="m">9</span> <span class="p">-</span> <span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span> <span class="p">-</span>
-                      <span class="n">statusStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span>
-<span class="c1">// ClientSize or ClientRectangle report heights one pixel inferior to</span>
-<span class="c1">// the actual size.</span>
-</pre></div>
+<div class="highlight highlight-C#"><pre>TabControl myTabControl = <span class="pl-s">new</span> TabControl();
+myTabControl.Top = <span class="pl-c1">5</span> + menuStrip1.Height;
+myTabControl.Left = <span class="pl-c1">5</span>;
+myTabControl.Width = ClientSize.Width - <span class="pl-c1">8</span>;
+<span class="pl-c">// ClientSize or ClientRectangle report widths two pixel inferior to</span>
+<span class="pl-c">// the actual size.</span>
+myTabControl.Height = ClientSize.Height - <span class="pl-c1">9</span> - menuStrip1.Height -
+                      statusStrip1.Height;
+<span class="pl-c">// ClientSize or ClientRectangle report heights one pixel inferior to</span>
+<span class="pl-c">// the actual size.</span></pre></div>
 
-<div class="highlight highlight-C#"><pre><span class="kt">int</span> <span class="n">margin</span> <span class="p">=</span> <span class="m">5</span><span class="p">;</span>
-<span class="n">TabControl</span> <span class="n">mainTabControl</span> <span class="p">=</span> <span class="k">new</span> <span class="n">TabControl</span><span class="p">();</span>
-<span class="k">this</span><span class="p">.</span><span class="n">mainTabControl</span><span class="p">.</span><span class="n">Left</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">margin</span><span class="p">;</span>
-<span class="k">this</span><span class="p">.</span><span class="n">mainTabControl</span><span class="p">.</span><span class="n">Top</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">margin</span> <span class="p">+</span> <span class="k">this</span><span class="p">.</span><span class="n">menuStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">;</span>
-<span class="k">this</span><span class="p">.</span><span class="n">mainTabControl</span><span class="p">.</span><span class="n">Width</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">ClientSize</span><span class="p">.</span><span class="n">Width</span> <span class="p">+</span> <span class="m">2</span> <span class="p">-</span>
-                            <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">margin</span> <span class="p">+</span> <span class="k">this</span><span class="p">.</span><span class="n">mainTabControl</span><span class="p">.</span><span class="n">Left</span><span class="p">);</span>
-<span class="k">this</span><span class="p">.</span><span class="n">mainTabControl</span><span class="p">.</span><span class="n">Height</span> <span class="p">=</span> <span class="k">this</span><span class="p">.</span><span class="n">ClientSize</span><span class="p">.</span><span class="n">Height</span> <span class="p">+</span> <span class="m">1</span> <span class="p">-</span>
-                             <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">margin</span> <span class="p">+</span>
-                              <span class="k">this</span><span class="p">.</span><span class="n">mainTabControl</span><span class="p">.</span><span class="n">Top</span> <span class="p">+</span>
-                              <span class="k">this</span><span class="p">.</span><span class="n">statusStrip1</span><span class="p">.</span><span class="n">Height</span><span class="p">);</span>
-</pre></div>
+<div class="highlight highlight-C#"><pre><span class="pl-st">int</span> margin = <span class="pl-c1">5</span>;
+TabControl mainTabControl = <span class="pl-s">new</span> TabControl();
+<span class="pl-c1">this</span>.mainTabControl.Left = <span class="pl-c1">this</span>.margin;
+<span class="pl-c1">this</span>.mainTabControl.Top = <span class="pl-c1">this</span>.margin + <span class="pl-c1">this</span>.menuStrip1.Height;
+<span class="pl-c1">this</span>.mainTabControl.Width = <span class="pl-c1">this</span>.ClientSize.Width + <span class="pl-c1">2</span> -
+                            (<span class="pl-c1">this</span>.margin + <span class="pl-c1">this</span>.mainTabControl.Left);
+<span class="pl-c1">this</span>.mainTabControl.Height = <span class="pl-c1">this</span>.ClientSize.Height + <span class="pl-c1">1</span> -
+                             (<span class="pl-c1">this</span>.margin +
+                              <span class="pl-c1">this</span>.mainTabControl.Top +
+                              <span class="pl-c1">this</span>.statusStrip1.Height);</pre></div>
 
 <p>In the second example, you directly understand that 2 is added to the ClientSize width, and 1 is added to its height, that then the margin and left position are subtracted to width; and top to height respectively, and that for the height, you also subtract the height of the status strip.</p>
 
 <p>This is due to the style of the code, the order of each instruction (please note that the complexity of the right member of each affectation increases with each line, giving you something new to understand on each line), the use of variables when necessary, the re-use of semantically-fitting terms (why use <code>this.margin</code> when you can refer to <code>this.mainTabControl.Left</code> instead?), and, of course, the (logical) order of the addition/subtraction terms assorted with the use of parenthesis (so 2 and 1 are respectively related to the width and the height, and that's obvious).</p>
 
-<hr><h1>
-<a name="microsoft-is-catching-up" class="anchor" href="#microsoft-is-catching-up"><span class="octicon octicon-link"></span></a>Microsoft is catching up</h1>
+<hr>
+
+<h1>
+<a id="microsoft-is-catching-up" class="anchor" href="#microsoft-is-catching-up" aria-hidden="true"><span class="octicon octicon-link"></span></a>Microsoft is catching up</h1>
 
 <p><em>2013/12/08 - 0120 GMT+1</em></p>
 
@@ -222,8 +229,10 @@ While this is very true for spaghetti code and other various forms of coding hor
 
 <p>So, it seems that all the big corporations out there are cutting off our rights one after the other, at a speed that is increasing with time... The only problem I see in that is that the FOSS world is neither ready nor mature enough yet. So if your read that, and are to be involved in any FOSS community... Please think about anything you can do. And I <strong>do</strong> mean think: please don't contribute mindlessly to the already overly bloated messy junkpile that most of the FOSS is at the moment.</p>
 
-<hr><h1>
-<a name="c-properties" class="anchor" href="#c-properties"><span class="octicon octicon-link"></span></a>C# Properties</h1>
+<hr>
+
+<h1>
+<a id="c-properties" class="anchor" href="#c-properties" aria-hidden="true"><span class="octicon octicon-link"></span></a>C# Properties</h1>
 
 <p><em>2013/11/18 - 0315 GMT+1</em></p>
 
@@ -249,8 +258,10 @@ While this is very true for spaghetti code and other various forms of coding hor
 
 <p>And for those who wonder, here is a comparison between the <a href="http://msdn.microsoft.com/en-us/library/4bsztef7.aspx">properties and the indexers</a>.</p>
 
-<hr><h1>
-<a name="microsoft-wont-ever-change" class="anchor" href="#microsoft-wont-ever-change"><span class="octicon octicon-link"></span></a>Microsoft won't ever change</h1>
+<hr>
+
+<h1>
+<a id="microsoft-wont-ever-change" class="anchor" href="#microsoft-wont-ever-change" aria-hidden="true"><span class="octicon octicon-link"></span></a>Microsoft won't ever change</h1>
 
 <p><em>2013/11/09 - 0300 GMT+1</em></p>
 
@@ -262,8 +273,10 @@ While this is very true for spaghetti code and other various forms of coding hor
 
 <p>Bottom line: Now I have got a key for the IDE, I don't risk anymore (afaik) to lose some data because of some very bad design choice, dictated by an overly stupid marketing decision, very probably made by an even more stupid employee of a greedy monopolistic company that accumulates law infringements faster than Google gathers people's data. This is just to say: Microsoft, take a good look at us, while you still can. Take a good look at what people think of you when you treat them like retards. When you don't give a f*ck about interoperability and consider yourself the only important thing on Earth. And watch us switch to other systems and software. You won't ever change. We know that. It's only a matter of time before your name won't be anywhere but on Wikipedia. So, enjoy your wealth while you still can. And then, please, die silently.</p>
 
-<hr><h1>
-<a name="first-post" class="anchor" href="#first-post"><span class="octicon octicon-link"></span></a>First post</h1>
+<hr>
+
+<h1>
+<a id="first-post" class="anchor" href="#first-post" aria-hidden="true"><span class="octicon octicon-link"></span></a>First post</h1>
 
 <p><em>2013/11/09 - 0200 GMT+1</em></p>
 
